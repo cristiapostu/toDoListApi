@@ -38,7 +38,7 @@ public class ToDoItemServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long id = Long.parseLong(req.getParameter("id"));
+//        long id = Long.parseLong(req.getParameter("id"));
 
         setAccessControlHeaders(resp);
 
@@ -55,6 +55,20 @@ public class ToDoItemServlet extends HttpServlet {
             resp.getWriter().println(responseJson);
             resp.getWriter().flush();
 
+        } catch (Exception e) {
+            resp.sendError(500, "There was an error processing your request. " +
+                    e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        setAccessControlHeaders(resp);
+
+        final String id = req.getParameter("id");
+
+        try {
+            toDoItemService.deleteToDoItem(Long.parseLong(id));
         } catch (Exception e) {
             resp.sendError(500, "There was an error processing your request. " +
                     e.getMessage());

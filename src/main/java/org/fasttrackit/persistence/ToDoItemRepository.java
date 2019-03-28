@@ -47,4 +47,16 @@ public class ToDoItemRepository {
             return response;
         }
     }
+
+    public void deleteToDoItem(long id) throws SQLException, IOException, ClassNotFoundException {
+        try (Connection connection = DatabaseConfiguration.getConnection()) {
+            String query = "DELETE FROM to_do_items WHERE id=?";
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(query);
+
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        }
+    }
+
 }
